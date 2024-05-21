@@ -36,17 +36,20 @@ const TabNavigation = () => {
         name="Home" 
         component={HomeScreen} 
         options={{ 
+          tabBarActiveTintColor:"black",
+          tabBarActiveBackgroundColor:"black",
           tabBarLabel: <CustomLabel text="Home" style={styles.homeLabel} />,
           tabBarIcon: ({ color }) => (
             <Icon name='home' size={24} color={color} />
-          ), 
-          tabBarColor: 'yellow'
+          )
         }}
       />
       <Tab.Screen 
         name="Favorites" 
         component={FavoritesScreen} 
         options={{ 
+          tabBarActiveTintColor:"black",
+          tabBarActiveBackgroundColor:"black",
           tabBarLabel: <CustomLabel text="Favorites" style={styles.aboutLabel} />,
           tabBarIcon: ({ color }) => (
             <Icon name='heart' size={24} color={color} />
@@ -57,6 +60,8 @@ const TabNavigation = () => {
         name="Search" 
         component={SearchScreen} 
         options={{ 
+          tabBarActiveTintColor:"black",
+          tabBarActiveBackgroundColor:"black",
           tabBarLabel: <CustomLabel text="Search" style={styles.searchLabel} />,
           tabBarIcon: ({ color }) => (
             <Icon name='magnify' size={24} color={color} />

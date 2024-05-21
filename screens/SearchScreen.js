@@ -22,25 +22,22 @@ const SearchScreen = () => {
     const topRatedMovies = useSelector(state => state.topRated.topRated);
     const playingMovies = useSelector(state => state.playing.playing);
     const [filteredMovies, setFilteredMovies] = useState([]);
-    const [all, setAll] = useState(true);
-    const [popular, setPopular] = useState(false);
-    const [upcoming, setUpcoming] = useState(false);
-    const [topRated, setTopRated] = useState(false);
-    const [playing, setPlaying] = useState(false);
+    const [all, setAll] = useState('all');
     const dispatch = useDispatch();
 
     useEffect(() => {
-        setSearch('');
         dispatch(popularAction());
         dispatch(upcomingAction());
         dispatch(topRatedAction());
         dispatch(playingAction());
     }, [])
 
-    const updateSearch = (search) => {
+    const updateSearch = (search, filter=all) => {
+        setAll(filter);
+        console.log(search);
         setSearch(search);
         if (search) {
-            if (all) {
+            if (filter === "all") {
                 const filteredPopular = popularMovies.filter(movie => movie.title.includes(search));
                 const filteredUpcoming = upcomingMovies.filter(movie => movie.title.includes(search));
                 const filteredTopRated = topRatedMovies.filter(movie => movie.title.includes(search));
@@ -60,16 +57,16 @@ const SearchScreen = () => {
                 }, []);
                 setFilteredMovies(uniqueFilteredMovies);
             }
-            else if(popular){
+            else if(filter === "popular"){
                 setFilteredMovies(popularMovies.filter(movie => movie.title.includes(search)));
             }
-            else if(playing){
+            else if(filter === "playing"){
                 setFilteredMovies(playingMovies.filter(movie => movie.title.includes(search)));
             }
-            else if(topRated){
+            else if(filter === "topRated"){
                 setFilteredMovies(topRatedMovies.filter(movie => movie.title.includes(search)));
             }
-            else if(upcoming){
+            else if(filter === "upcoming"){
                 setFilteredMovies(upcomingMovies.filter(movie => movie.title.includes(search)));
             }
         }
@@ -101,52 +98,27 @@ const SearchScreen = () => {
                             anchor={<Icon name='sort' color={'white'} size={40} onPress={() => { openMenu(); }}></Icon>}>
                             <Menu.Item leadingIcon="movie-filter"
                                 onPress={() => {
-                                    setAll(true);
-                                    setPopular(false);
-                                    setPlaying(false);
-                                    setUpcoming(false);
-                                    setTopRated(false);
-                                    updateSearch(search);
+                                    updateSearch(search, 'all');
                                     closeMenu();
                                 }} title="All" />
                             <Menu.Item leadingIcon="movie-play"
                                 onPress={() => {
-                                    setPlaying(true);
-                                    setAll(false);
-                                    setPopular(false);
-                                    setUpcoming(false);
-                                    setTopRated(false);
-                                    updateSearch(search);
+                                    updateSearch(search, 'playing');
                                     closeMenu();
                                 }} title="Now Playing" />
                             <Menu.Item leadingIcon="movie-star"
                                 onPress={() => {
-                                    setTopRated(true);
-                                    setAll(false);
-                                    setPopular(false);
-                                    setPlaying(false);
-                                    setUpcoming(false);
-                                    updateSearch(search);
+                                    updateSearch(search, 'rated');
                                     closeMenu();
                                 }} title="Top Rated" />
                             <Menu.Item leadingIcon="movie"
                                 onPress={() => {
-                                    setPopular(true);
-                                    setAll(false);
-                                    setPlaying(false);
-                                    setUpcoming(false);
-                                    setTopRated(false);
-                                    updateSearch(search);
+                                    updateSearch(search, 'popular');
                                     closeMenu();
                                 }} title="Popular" />
                             <Menu.Item leadingIcon="movie-settings"
                                 onPress={() => {
-                                    setUpcoming(true);
-                                    setAll(false);
-                                    setPopular(false);
-                                    setPlaying(false);
-                                    setTopRated(false);
-                                    updateSearch(search);
+                                    updateSearch(search, 'coming');
                                     closeMenu();
                                 }} title="Upcoming" />
                         </Menu>
